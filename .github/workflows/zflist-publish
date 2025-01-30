@@ -68,6 +68,8 @@ fi
 export ZFLIST_BACKEND="{\"host\": \"${BACKEND_HOST}\", \"port\": ${BACKEND_PORT}, \"token\": \"${ZFLIST_HUB_TOKEN}\"}"
 
 if [ "$action" == "PUBLISH" ]; then
+    echo "Using backend: ${BACKEND_HOST} / ${BACKEND_PORT}"
+
     echo "Initializing new flist"
     zflist init
 
