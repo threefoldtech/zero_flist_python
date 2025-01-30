@@ -9,7 +9,6 @@ if [ "$INPUT_BASEURL" != "" ]; then
     export ZFLIST_HUB=$INPUT_BASEURL
 fi
 
-
 if [ "$INPUT_TOKEN" != "" ]; then
     echo "Using legacy token field"
 
@@ -58,7 +57,15 @@ if [ "$ZFLIST_HUB_TOKEN" == "" ]; then
     echo "WARNING: no token found"
 fi
 
-export ZFLIST_BACKEND="{\"host\": \"hub.grid.tf\", \"port\": 9980, \"token\": \"$ZFLIST_HUB_TOKEN\"}"
+export BACKEND_HOST="hub.grid.tf"
+export BACKEND_PORT=9980
+
+if [ "$INPUT_BACKEND" != "" ]; then
+    export BACKEND_HOST=$(echo $INPUT_BACKEND | cut -d: -f1)
+    export BACKEND_PORT=$(echo $INPUT_BACKEND | cut -d: -f2)
+fi
+
+export ZFLIST_BACKEND="{\"host\": \"${BACKEND_HOST}\", \"port\": ${BACKEND_PORT}, \"token\": \"${ZFLIST_HUB_TOKEN}\"}"
 
 if [ "$action" == "PUBLISH" ]; then
     echo "Initializing new flist"
